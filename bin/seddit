@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+puts () {
+  printf "$1\n" >&2
+}
+
+help () {
+  printf "Usage: %s: [-h|-d]\n" $(basename $0) >&2
+  puts "pipe changed files in svn's eyes thru sed for trailing whitespace"
+  puts
+  puts "Options:"
+  puts "  -d    Dry run"
+  puts "  -h    This screen"
+  exit
+}
+
+dry=
+show_help=
+while getopts 'dh' OPTION
+do
+  case $OPTION in
+  d) dry=1
+    ;;
+  h) show_help=1
+    ;;
+  ?) show_help=1 
+    ;;
+  esac
+done
+
+if [ "$show_help" ]; then help; fi
+
+if [ "$dry" ]
+then
+  svn status --ignore-externals |  cut -c9-
+  exit
+fi
+
+svn status --ignore-externals | cut -c9- | sed 's/  *$//g'
