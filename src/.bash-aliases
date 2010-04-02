@@ -44,6 +44,9 @@ alias ga="git add"
 alias gi="githelper"
 alias gh="githelper"
 
+# Textmate specific
+alias maet="mate" # common typo
+
 # My projects specific
 alias hc='hipe-core'
 alias a="alphabet"

@@ -2,6 +2,23 @@ echo "executing ~/.bashrc"
 
 export PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin"
 export PATH="$HOME/.gem/ruby/1.8/bin:/usr/local/mysql/bin:/usr/local/gin/bin:/usr/X11/bin:$PATH"
+# export PATH="$PATH:/usr/local/git/bin"    it's just in /usr/local/bin, or ~/bin
+
+# when installing git for single user, need to put them somehwere
+# export MANPATH="$HOME/doc"
+
+# System-wide .profile for sh(1)
+
+# my manpath got botched at somepoint
+# http://www.stereoplex.com/2008/feb/5/mac-os-x-command-and-manual-search-path-path-and-m/
+if [ -x /usr/libexec/path_helper ]; then
+  eval `/usr/libexec/path_helper -s`
+fi
+
+if [ "${BASH-no}" != "no" ]; then
+ [ -r /etc/bashrc ] && . /etc/bashrc
+fi
+
 
 # Colors
 # See following for more information: http://www.infinitered.com/blog/?p=19
@@ -66,11 +83,13 @@ export EDITOR='mate -w'  # OS-X SPECIFIC - TextMate, w is to wait for TextMate w
 
 # Ruby specific
 export RUBYOPT="rubygems"
+# export RUBYLIB=~/proj/mygems
+# the above was going to be used for etc. but instead we etc.
 
 # Svn specific
 svgetinfo (){
-       sv info $@
-       sv log $@
+  sv info $@
+  sv log $@
 }
 
 # Symfony specific

@@ -6,7 +6,7 @@
 # exit codes
 E_WRONGARGS=85  # Non-numerical argument (bad argument format).
 OK=0
-DOTFILES=(.bash_profile .bashrc .bash-aliases bin/seddit bin/lookat)
+DOTFILES=(.bash_profile .bashrc .bash-aliases bin/seddit bin/lookat bin/gdcheck)
 MY_SRC_DIR="$HOME/.dotfiles/src"
 
 p(){ printf "$1\n" >&2; }

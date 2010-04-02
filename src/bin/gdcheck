@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+usage(){
+  printf "Usage: %s [-c|-y|-s|-h]\n" $(basename $0)
+  echo -e
+  echo -e "Description: strip trailing whitespace from "
+  echo -e "             uncommited files in a git project"
+  echo -e
+  echo -e "Options:"
+  echo -e "  -c    short for git diff --check; git diff --check --cached"
+  echo -e "  -y    actually run the sed command"
+  echo -e "  -s    just show the sed command and exit"
+}
+
+do_it(){
+  git diff --name-only | while read -r line; do sed -i '' 's/  *$//' $line; done
+}
+
+show_it(){
+  echo -e "git diff --name-only | while read -r line; do sed -i'' 's/  *$//' \$line; done"
+}
+
+check_it(){
+  git diff --check
+  git diff --cached --check
+}
+
+if [[ $# == 0 ]] ; then
+  usage
+else
+  while [[ $# -gt 0 ]] ; do
+    token="$1" ; shift
+    case "$token" in
+      -y) do_it ;;
+      -s) show_it ;;
+      -c) check_it ;;
+      -h|--help) usage ;;
+      *)
+        echo -e "unrecognized option: $token"
+        usage
+        ;;
+    esac
+  done
+fi
