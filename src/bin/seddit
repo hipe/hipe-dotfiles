@@ -22,7 +22,7 @@ do
     ;;
   h) show_help=1
     ;;
-  ?) show_help=1 
+  ?) show_help=1
     ;;
   esac
 done

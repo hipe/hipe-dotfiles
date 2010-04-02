@@ -1,0 +1,99 @@
+# if you're looking at this in textmate tell it down below it is a Shell Script (Bash)
+
+echo "executing ~/.bash-aliases"
+
+# System Utility/Tool shortcuts
+alias ls='ls -G'
+alias ..='cd ..'
+alias ...='cd .. ; cd ..'
+alias ll='ls -hla'
+alias la='ls -a'
+alias lla='ls -lah'
+#alias g='grep -i'  # Case insensitive grep
+#alias f='find . -iname'
+#alias top='top -o cpu'
+#alias m='more'
+#alias df='df -h'
+#alias systail='tail -f /var/log/system.log'
+#alias g='grep -i'  # Case insensitive grep
+
+
+# Mac specific
+alias ff="/Applications/Firefox.app/Contents/MacOS/firefox-bin "
+
+# Ruby specific
+alias bt='baretest'
+alias ruby2="rvm use ruby-1.9.1-head"
+alias ruby1="rvm use system"
+alias irb="irb -rPP"
+alias spc="spec --diff --color --debug -b"
+
+# Python specific
+alias py="python"
+
+# This junk / TM specific
+alias rebash="source ~/.bashrc"
+alias realias="source ~/.bash-aliases"
+alias bashrc='mate ~/.bashrc'
+alias aliases="mate ~/.bash-aliases"
+
+# Git specific
+alias gs="git status"
+alias gd="git diff"
+alias ga="git add"
+alias gi="githelper"
+alias gh="githelper"
+
+# My projects specific
+alias hc='hipe-core'
+alias a="alphabet"
+alias ass="assess"
+alias fm="filemetrics"
+alias gr="find -L . -not \\( -type d \\( -name .svn -o -name cache -o -name log -o -name vendor \\) -prune  \\) -a \\( -name \"*.php\" -o -name \"*.js\" -o -name \"*.yml\" -o -name \"*.css\" -o -name \"*.rb\" \) | xargs grep --line-number"
+
+# Web dev specific
+alias sag="sudo apachectl graceful"
+alias s="./symfony"
+
+# random craziness
+alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in current folder
+
+# Svn specific (to my dev env too)
+alias ssi="svn status --ignore-externals"
+alias sd="svn diff | mate"
+alias sui="svn update --ignore-externals"
+# "SVN Power-Add preview" -- see all the lines of an "svn status" that start with a '?'
+alias spap="svn status --ignore-externals | grep '^?'"
+# "SVN Power-Add" -- add all the files that start with a '?'
+alias spa="svn status --ignore-externals | awk '/^\?/{print \"\42\" substr(\$0,9) \"\42\"}' | xargs svn add"
+# \42 means a double quote.  awk uses substr() and not $2 we quote what we pass to svn
+
+# Svn specific
+##
+# alias sv='svn --username ${SV_USER}'
+# alias svstatusonserver='sv status --show-updates' # Show status here and on the server
+# alias svaddall='svn status | grep "^\?" | awk "{print \$2}" | xargs svn add'
+# alias svdeleteall='svn status | grep "^\!" | awk "{print \$2}" | xargs svn rm'
+# alias svmissing='svn status | grep "^\?" | awk "{print \$2}"'
+# alias svignored='svn pg -R svn:ignore'
+#
+
+# Ridiculous functions
+# I got the following from, and mod'd it: http://www.macosxhints.com/article.php?story=20020716005123797
+#    The following aliases (save & show) are for saving frequently used directories
+#    You can save a directory using an abbreviation of your choosing. Eg. save ms
+#    You can subsequently move to one of the saved directories by using cd with
+#    the abbreviation you chose. Eg. cd ms  (Note that no '$' is necessary.)
+if [ ! -f ~/.dirs ]; then
+  touch ~/.dirs
+fi
+
+alias show='cat ~/.dirs'
+save (){
+ command sed "/!$/d" ~/.dirs > ~/.dirs1; \mv ~/.dirs1 ~/.dirs; echo "$@"=\"`pwd`\" >> ~/.dirs; source ~/.dirs ;
+}
+source ~/.dirs  # Initialization for the above 'save' facility: source the .sdirs file
+shopt -s cdable_vars # set the bash option so that no '$' is required when using the above facility
+
+# Shows most used commands from: http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
+alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
