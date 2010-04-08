@@ -1,23 +1,31 @@
 #!/usr/bin/env bash
 
+# this was better as a 3 line rake task :(
+
 usage(){
   printf "Usage: %s [-c|-y|-s|-h]\n" $(basename $0)
   echo -e
   echo -e "Description: strip trailing whitespace from "
-  echo -e "             uncommited files in a git project"
+  echo -e "             uncommited or changed files in a git project"
   echo -e
   echo -e "Options:"
   echo -e "  -c    short for git diff --check; git diff --check --cached"
-  echo -e "  -y    actually run the sed command"
-  echo -e "  -s    just show the sed command and exit"
+  echo -e "  -y    actually run the ed command"
+  echo -e "  -s    just show the ed command and exit"
 }
 
 do_it(){
-  git diff --name-only | while read -r line; do sed -i '' 's/  *$//' $line; done
-}
-
-show_it(){
-  echo -e "git diff --name-only | while read -r line; do sed -i'' 's/  *$//' \$line; done"
+  local y_or_n=$1
+  local myarray=
+  IFS=$'\n' read -r -d $'\0' -a myarray < <(git ls-files --cached --modified)  
+  for file in "${myarray[@]}"; do
+    # echo "ed -s \"$file\" <<< $'H,s/  *$//\nw'"
+    echo "sed -i '' 's/  *$//' \"$file\""
+    if [[ 'yes' == $y_or_n ]] ; then
+      # ed -s "$file" <<< $'H,s/  *$//\nw'
+      sed -i '' 's/  *$//' "$file"
+    fi
+  done
 }
 
 check_it(){
@@ -31,9 +39,9 @@ else
   while [[ $# -gt 0 ]] ; do
     token="$1" ; shift
     case "$token" in
-      -y) do_it ;;
-      -s) show_it ;;
-      -c) check_it ;;
+      -y) do_it 'yes' ;;
+      -s) do_it 'no'  ;;
+      -c) check_it;;
       -h|--help) usage ;;
       *)
         echo -e "unrecognized option: $token"
