@@ -2,19 +2,102 @@
 
 # adapted from http://kpumuk.info/mac-os-x/how-to-show-ssh-host-name-on-the-iterms-background/
 
+HEIGHT_TALL=750
+WIDTH_NARROW=430
+WIDTH_SCROLLBAR=15
+HEIGHT_TITLEBAR_TABS=44
+
+# arr=($(iterm_bounds_get))
+function iterm_bounds_get {
+	local size=( $(
+		osascript -e "
+			tell application \"iTerm\"
+				get the bounds of the first window
+			end tell" | tr ',' ' '
+	) )
+	echo "${size[@]}"
+}
+
+function iterm_bounds_set {
+	local exec_me="
+		tell application \"iTerm\"
+			set the bounds of the first window to {$1, $2, $3, $4}
+		end tell
+	"
+	osascript -e "$exec_me"
+}
+
 function iterm_dimensions_get {
-  local size=( $(osascript -e "tell application \"iTerm\"
-		get bounds of window 1
-		end tell" | tr ',' ' ')
-	)
+  local size=($(iterm_bounds_get))
   local x1=${size[0]} y1=${size[1]} x2=${size[2]} y2=${size[3]}
-  # 15px - scrollbar width
-  local w=$(( $x2 - $x1 - 15 ))
-  # 44px - titlebar + tabs height
-  local h=$(( $y2 - $y1 - 44))
+  local w=$(( $x2 - $x1 - $WIDTH_SCROLLBAR))
+  local h=$(( $y2 - $y1 - $HEIGHT_TITLEBAR_TABS))
   echo "${w}x${h}"
 }
 
+function iterm_dimensions_set {
+	local w=$1 h=$2
+	local b=($(iterm_bounds_get))
+	iterm_bounds_set ${b[0]} ${b[1]} $w $h
+}
+
+# check to see if we have the correct terminal for doing this kind of thing
+function iterm_ok {
+	if [ "$(tty)" == 'not a tty' ] || [ "$TERM_PROGRAM" != "iTerm.app" ] ; then
+		echo ''
+	else
+		echo 'ok'
+	fi
+}
+
+function iterm_set {
+	local prop=$1
+	local val=$2
+	local tty=$(tty)
+	osascript -e "
+		tell application \"iTerm\"
+			repeat with theTerminal in terminals
+				tell theTerminal
+					try
+						tell session id \"$tty\"
+							set bounds of window 1 to \"$val\"
+						end tell
+						on error errmesg number errn
+					end try
+				end tell
+			end repeat
+		end tell
+	"
+}
+
+function iterm_bg_image_make {
+	local text1=$1
+	local text2=$2
+	local color_bg=${3:-#000000}
+	local color_fg=${4:-#662020}
+	local dimensions=$(iterm_dimensions_get)
+	local font_ttf=${5:-$HOME/.bash/resources/SimpleLife.ttf}
+	local font_points=${6:-60}
+	local font_style=${7:-Normal} # Font style (Any, Italic, Normal, Oblique)
+	local gravity=${8:-NorthEast}
+			# Text gravity (NorthWest, North, NorthEast,
+			# West, Center, East, SouthWest, South, SouthEast)
+	local offset1=${8:-20,10}
+	local offset2=${9:-20,80}
+	local outpath="/tmp/iTermBG.$$.png"
+	convert \
+		-size "$dimensions" xc:"$color_bg" -gravity "$gravity" -fill "$color_fg" \
+		-font "$font_ttf" -style "$font_style" -pointsize "$font_points" \
+		-antialias -draw "text $offset1 '$text1'" \
+		-pointsize 30 -draw "text $offset2 '$text2'" \
+		"$outpath"
+	echo $outpath
+}
+
+function iterm_bg_image_delete {
+	local path=${1:-/tmp/itermBG.$$.png}
+	rm $path
+}
 
 function iterm_bg_image_set {
 	local tty=$(tty)
@@ -33,7 +116,6 @@ function iterm_bg_image_set {
 		end tell
 	"
 }
-
 
 function iterm_bg_color_set {
   local tty=$(tty)
@@ -54,8 +136,10 @@ function iterm_bg_color_set {
 	"
 }
 
-echo "here are dimensions:"
-echo $(iterm_dimensions_get)
-# echo "setting bgcolor to to $1"
-# iterm_bg_color_set $1
-iterm_bg_image_set "/tmp/iTermBG.tmp.png"
+function iterm_window_title_set {
+	osascript -e "
+		tell application \"iTerm\"
+		  set the name of the first window to \"$1\"
+		end tell
+	"
+}
