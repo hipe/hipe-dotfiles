@@ -3,7 +3,7 @@
 # adapted from http://kpumuk.info/mac-os-x/how-to-show-ssh-host-name-on-the-iterms-background/
 
 HEIGHT_TALL=750
-WIDTH_NARROW=430
+WIDTH_NARROW=600
 WIDTH_SCROLLBAR=15
 HEIGHT_TITLEBAR_TABS=44
 
@@ -38,10 +38,12 @@ function iterm_dimensions_get {
 function iterm_dimensions_set {
 	local w=$1 h=$2
 	local b=($(iterm_bounds_get))
-	iterm_bounds_set ${b[0]} ${b[1]} $w $h
+	local x=${b[0]} y=${b[1]}
+	iterm_bounds_set $x $y $w $h
 }
 
 # check to see if we have the correct terminal for doing this kind of thing
+# this won't work when we sudo something because TERM_PROGRAM isn't picked up
 function iterm_ok {
 	if [ "$(tty)" == 'not a tty' ] || [ "$TERM_PROGRAM" != "iTerm.app" ] ; then
 		echo ''
