@@ -26,8 +26,7 @@ path=$(iterm_bg_image_make $text1 $text2)
 echo $(iterm_bg_image_set $path)
 
 on_exit () {
-	local path=$(iterm_empty_image);
-	iterm_bg_image_set $path;
+	iterm_bg_image_set $(iterm_bg_image_empty);
 	$(iterm_bg_image_delete);
 }
 trap on_exit EXIT

@@ -99,6 +99,15 @@ function iterm_bg_image_delete {
 	rm $path
 }
 
+function iterm_bg_image_empty {
+	local opath="/tmp/iTermBG.empty.png"
+	if [ ! -f /tmp/iTermBG.empty.png ]; then
+		local dims=$(iterm_dimensions_get)
+		convert -size "$dims" xc:"#000000" "$opath"
+	fi
+	echo $opath
+}
+
 function iterm_bg_image_set {
 	local tty=$(tty)
 	osascript -e "
