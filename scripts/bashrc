@@ -1,6 +1,7 @@
 echo "executing ~/.bashrc"
 
-export PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin"
+# export PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/usr/sbin:/sbin:/bin"
+export PATH="/opt/local/bin:/usr/bin:/usr/sbin:/sbin:/bin"
 export PATH="$HOME/.gem/ruby/1.8/bin:/usr/local/mysql/bin:/usr/local/gin/bin:/usr/X11/bin:$PATH"
 export PATH="$HOME/.rvm/bin:$PATH"
 
@@ -19,7 +20,7 @@ if [ -x /usr/libexec/path_helper ]; then
 fi
 
 # the above munges path.  no matter what we want the below first
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
 
 export MANPATH=`manpath`
 
