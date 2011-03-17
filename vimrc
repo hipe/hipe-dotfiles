@@ -36,3 +36,4 @@ set incsearch     " show search matches as you type
 set nobackup
 set noswapfile
 
+color railscasts
