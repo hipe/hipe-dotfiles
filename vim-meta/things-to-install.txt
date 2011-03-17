@@ -6,4 +6,9 @@ clone this from wherever, inside ~/.vim is fine:
 git://github.com/scrooloose/nerdtree.git
 then look at rake -t, do install
 
+go here,
+  https://wincent.com/products/command-t
+download the vimball, open it with vim, follow the screencast
+to cd into the one directory and build it with ruby.
+
 
