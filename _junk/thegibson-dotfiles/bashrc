@@ -1,0 +1,12 @@
+
+# Check for an interactive session
+if [[ -n "$PS1" ]] ; then
+  export PATH="$HOME/.rvm/bin:$PATH"
+  export EDITOR='vi'
+  export PS1="\[\033[1;37m\]\u@\h \[\033[0;32m\]\w > \[\033[0m\]"
+  # PS1='[\u@\h \W]\$ '
+
+  [[ -s $HOME/.bash-aliases ]] && source $HOME/.bash-aliases
+  [[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+fi
+
