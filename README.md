@@ -1,7 +1,4 @@
-### ABOUT ###
+### hipe dotfiles
 
-remember that article about what it would be like to keep your home directory under version control?
+whatever everyone's got one
 
-### INSTALLATION ###
-
-for now you will have to manually create the necessary symbolic links
