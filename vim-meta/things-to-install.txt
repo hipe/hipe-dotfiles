@@ -1,0 +1,6 @@
+clone this:
+  https://github.com/tpope/vim-pathogen.git
+and put pathogen.vim in ~/.vim/autoload
+
+
+
