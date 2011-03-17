@@ -11,4 +11,7 @@ go here,
 download the vimball, open it with vim, follow the screencast
 to cd into the one directory and build it with ruby.
 
+install this:
+https://github.com/tpope/vim-fugitive.git
+
 
