@@ -2,3 +2,8 @@ clone this:
   https://github.com/tpope/vim-pathogen.git
 and put pathogen.vim in ~/.vim/autoload
 
+clone this from wherever, inside ~/.vim is fine:
+git://github.com/scrooloose/nerdtree.git
+then look at rake -t, do install
+
+
