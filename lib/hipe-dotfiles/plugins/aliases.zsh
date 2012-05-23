@@ -1,7 +1,10 @@
-  alias ls='ls --color=auto'
-  alias gs='git status'
-  alias ga='git add'
-  alias gd='git diff'
-  alias gdcheck='git diff --check'
-  alias realias="source ~/.bash-aliases"
+file="$0"
+alias aliases="vi $file"
+alias realias="source $file"
+alias scr="screen"
+alias irc="screen -RD irc"
 
+alias gs="git status"
+alias gd="git diff"
+
+alias gb="git branch"
