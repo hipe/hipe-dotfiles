@@ -1,4 +1,4 @@
-### hipe dotfiles
+# hipe dotfiles
 
-whatever everyone's got one
+the classic "my dotfiles" crap, updated to be an oh-my-zsh plugin, experimentally
 
