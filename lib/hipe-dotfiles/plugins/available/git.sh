@@ -1,5 +1,3 @@
-#!/bin/sh
-
 export PATH="$PATH:/usr/local/git/bin"
 
 function gitignore {
