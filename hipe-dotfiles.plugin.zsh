@@ -23,9 +23,7 @@ _init_vars () {
     echo "failed to determine absolute filepath of this file!"
     return
   fi
-  echo "yes this is __file__:-->$__file__<--"
   my_dirname=$(dirname "$__file__")
-  echo "yes this is my_dirname:-->$my_dirname<--"
   me=$(basename $my_dirname) # e.g. "hipe-dotfiles"
   xyzzy="$my_dirname/lib/$me/plugins/active"
 }
@@ -43,8 +41,9 @@ _run () {
     if [[ -z "$_lines" ]] ; then
       echo "$me: notice: no active plugins at all in $xyzzy"
     else
+      echo "- $me"
       echo "$_lines" | sort | while read -r line ; do
-        echo "  * $me loading $(basename $line)"
+        echo "  - $(basename $line)"
         source "$line"
       done
     fi

@@ -1,3 +1,5 @@
+#007 2012-07-09 @closed don't double up on path mutations, add tmx
+bootstrap
 #006 2012-05-28 @open be verbose optionally about available sub-plugins that are not being loaded @priority:low
 #004 2012-05-28 @closed here, have a rbenv nerpus
 #004 2012-05-24 @open refactor main guy to have better error handling, be more elegant

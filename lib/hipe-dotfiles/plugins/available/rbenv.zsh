@@ -1,7 +1,19 @@
 # per https://github.com/sstephenson/rbenv
 #
 
-export PATH="$HOME/.rbenv/bin:$PATH"
+add="$HOME/.rbenv/bin"
+parts=(${(s~:~)PATH})
+found=$parts[(r)$add]
 
-eval "$(rbenv init -)"
+if [[ -z $parts[(r)$add] ]] ; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+else
+  echo "    - mutated path already? skipping."
+fi
 
+which=$(which ruby)
+if [[ '/usr/bin/ruby' == "$which" ]] ; then
+  eval "$(rbenv init -)"
+else
+  echo "    - ruby is $which? skipping."
+fi
