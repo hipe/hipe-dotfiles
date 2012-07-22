@@ -15,7 +15,7 @@ my_readlink () {
   echo "$file"
 }
 
-xyzzy='untouched'
+active='untouched'
 
 _init_vars () {
   __file__=$(my_readlink "$here")
@@ -25,21 +25,21 @@ _init_vars () {
   fi
   my_dirname=$(dirname "$__file__")
   me=$(basename $my_dirname) # e.g. "hipe-dotfiles"
-  xyzzy="$my_dirname/lib/$me/plugins/active"
+  active="$my_dirname/lib/$me/plugins/active"
 }
 
 _run () {
   _init_vars
   if [[ -n "$ok" ]]; then
     echo "$me: fatal: failed to _init_vars(): ->$ok<-"
-  elif [[ -z "$xyzzy" ]] ; then
-    echo "$me: fatal: failed to initialize xyzzy variable: -->$xyzzy<--"
-  elif [ ! -d "$xyzzy" ] ; then
-    echo "$me: fatal: active sub-plugins dir not found: -->$xyzzy<--"
+  elif [[ -z "$active" ]] ; then
+    echo "$me: fatal: failed to initialize active variable: -->$active<--"
+  elif [ ! -d "$active" ] ; then
+    echo "$me: fatal: active sub-plugins dir not found: -->$active<--"
   else
-    _lines=$(find "$xyzzy" -maxdepth 1 -name '*.zsh')
+    _lines=$(find "$active" -maxdepth 1 -name '*.zsh')
     if [[ -z "$_lines" ]] ; then
-      echo "$me: notice: no active plugins at all in $xyzzy"
+      echo "$me: notice: no active plugins at all in $active"
     else
       echo "- $me"
       echo "$_lines" | sort | while read -r line ; do
