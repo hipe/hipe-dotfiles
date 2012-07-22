@@ -5,15 +5,19 @@ add="$HOME/.rbenv/bin"
 parts=(${(s~:~)PATH})
 found=$parts[(r)$add]
 
-if [[ -z $parts[(r)$add] ]] ; then
+if [[ -z $found ]] ; then
   export PATH="$HOME/.rbenv/bin:$PATH"
 else
   echo "    - mutated path already? skipping."
 fi
 
-which=$(which ruby)
-if [[ '/usr/bin/ruby' == "$which" ]] ; then
+
+add2='*.rbenv/shims'
+found2=$parts[(r)$add2]
+
+if [[ -z $found2 ]] ; then
+  echo "    - shimming"
   eval "$(rbenv init -)"
 else
-  echo "    - ruby is $which? skipping."
+  echo "    - shimmed rbenv already? skipping"
 fi
